@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simply Lovely 🎀</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>🎉 Happy Birthday Khushi! 🎉</h1>
-    <p><a href="khushi.html?user=khushi" class="surprise-btn">Click here for your surprise 🎁</a></p>
+    <p>We have a lovely surprise waiting just for you 💌</p>
+    <a href="khushi.html?user=khushi" class="surprise-btn">Click here for your surprise 🎁</a>
 
-    <form name="birthday-wishes" method="POST" data-netlify="true">
-      <p><label>Your Name:<br><input type="text" name="name" required></label></p>
-      <p><label>Your Wish:<br><textarea name="message" required></textarea></label></p>
-      <button type="submit">Send Wish</button>
+    <!-- 💌 Private Birthday Wish Form -->
+    <form action="https://formsubmit.co/sushmatiwari23671@gmail.com" method="POST" class="wish-form">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <textarea name="message" placeholder="Your Wish for Khushi 💖" required></textarea>
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://adityarox21.github.io/simply-lovely/thankyou.html">
+      <button type="submit">Send Your Wish 💌</button>
     </form>
   </div>
 
-  <!-- Background music (muted autoplay via YouTube embed) -->
+  <!-- Background music via hidden YouTube embed -->
   <iframe style="display:none" width="0" height="0"
     src="https://www.youtube.com/embed/3ymwOvzhwHs?autoplay=1&loop=1&playlist=3ymwOvzhwHs&mute=1"
     frameborder="0" allow="autoplay"></iframe>
 </body>
 </html>
+
