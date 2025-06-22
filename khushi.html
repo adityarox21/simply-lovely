@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Khushi’s Surprise</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("user") !== "khushi") {
+      window.location.href = "index.html";
+    }
+  </script>
+
   <div class="container">
-    <h1>🎀 Countdown to Your Day, Khushi 🎈</h1>
+    <h1>🎈 Countdown to Your Day, Khushi 🎈</h1>
     <h2 id="countdown">Loading...</h2>
 
-    <p class="poem">You make the world feel special, just by being you 💗</p>
-
-    <!-- Photo gallery removed -->
-
-    <h3>💌 Send a Private Birthday Wish</h3>
-    <form name="birthday-wishes" method="POST" data-netlify="true">
-      <p><label>Your Name:<br><input type="text" name="name" required></label></p>
-      <p><label>Your Wish:<br><textarea name="message" rows="4" required></textarea></label></p>
-      <button type="submit">Send Wish</button>
-    </form>
+    <!-- Optional poem/message removed as requested -->
   </div>
 
-  <!-- Music -->
   <iframe style="display:none" width="0" height="0"
     src="https://www.youtube.com/embed/3ymwOvzhwHs?autoplay=1&loop=1&playlist=3ymwOvzhwHs&mute=1"
     frameborder="0" allow="autoplay"></iframe>
 
-  <!-- Countdown script -->
   <script>
     const countDownDate = new Date("June 23, 2025 00:00:00").getTime();
     const x = setInterval(function() {
