@@ -1,29 +1,35 @@
-window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('user') === 'khushi') {
-    document.getElementById('surpriseContent').style.display = 'block';
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyD14DMWfrCbIjkXPEpdVPdHbXFZWFhO94U",
+  authDomain: "simply-lovely-a4f95.firebaseapp.com",
+  databaseURL: "https://simply-lovely-a4f95-default-rtdb.firebaseio.com",
+  projectId: "simply-lovely-a4f95",
+  storageBucket: "simply-lovely-a4f95.appspot.com",
+  messagingSenderId: "408497495837",
+  appId: "1:408497495837:web:26317ffa85861f4cc18bf4",
+  measurementId: "G-H2RMCYSEPZ"
+};
 
-    const countdown = document.getElementById("timer");
-    const targetDate = new Date("June 23, 2025 00:00:00").getTime();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
+document.getElementById("wishForm").addEventListener("submit", function(e) {
+  e.preventDefault();
 
-      if (distance < 0) {
-        countdown.innerText = "🎂 It's Your Day, Khushi! 🎂";
-        return;
-      }
+  const name = document.getElementById("nameInput").value.trim();
+  const message = document.getElementById("messageInput").value.trim();
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  if (name && message) {
+    const newWish = db.ref("wishes").push();
+    newWish.set({
+      name: name,
+      message: message,
+      timestamp: Date.now()
+    });
 
-      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    };
-
-    updateTimer();
-    setInterval(updateTimer, 1000);
+    alert("🎈 Your wish was sent!");
+    document.getElementById("wishForm").reset();
+  } else {
+    alert("Please fill out both fields.");
   }
 });
