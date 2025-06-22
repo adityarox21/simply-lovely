@@ -5,6 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simply Lovely – Happy Birthday Khushi</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: url('https://i.pinimg.com/originals/35/f1/0b/35f10bb27cb0db8d02858e325c8dc8a8.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-color: #ffe4f2; /* fallback if image fails */
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      margin: 50px auto;
+      border-radius: 20px;
+      max-width: 500px;
+      box-shadow: 0 0 10px pink;
+      text-align: center;
+    }
+    input, textarea {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    button {
+      background-color: pink;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: hotpink;
+    }
+  </style>
   <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
   <script defer src="script.js"></script>
@@ -12,7 +52,6 @@
 <body>
   <div class="container">
     <h1>🎉 Happy Birthday Khushi! 🎉</h1>
-  
 
     <form id="wishForm">
       <input type="text" id="nameInput" placeholder="Your Name" required />
@@ -29,4 +68,3 @@
     frameborder="0" allow="autoplay"></iframe>
 </body>
 </html>
-
