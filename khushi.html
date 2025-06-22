@@ -56,7 +56,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const countdownTarget = new Date("June 23, 2025 00:00:00").getTime();
+    // ⏰ Countdown for testing — 10 seconds
+    const countdownTarget = new Date().getTime() + 10000;
     const timerEl = document.getElementById("timer");
     const messagesDiv = document.getElementById("messages");
     const wishList = document.getElementById("wishList");
@@ -93,4 +94,3 @@
   </script>
 </body>
 </html>
-
