@@ -1,27 +1,17 @@
 body {
-  background: #ffe6f2;
+  background-image: url('https://i.pinimg.com/originals/f4/15/cb/f415cb90ec05d7890d40646a2de442a5.png');
+  background-size: cover;
   font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: #ff69b4;
   text-align: center;
   padding: 20px;
 }
 
 .container {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
   padding: 30px;
-  border-radius: 20px;
+  max-width: 600px;
+  margin: auto;
   box-shadow: 0 0 20px pink;
-  display: inline-block;
-}
-
-.surprise-btn {
-  display: inline-block;
-  margin: 20px;
-  background: hotpink;
-  color: white;
-  padding: 15px 30px;
-  text-decoration: none;
-  font-size: 1.2em;
-  border-radius: 20px;
-}
-
 }
