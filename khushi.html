@@ -1,56 +1,99 @@
+<!-- khushi.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Khushi’s Surprise</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khushi's Surprise 🎉</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #ffe6f0;
+      background-image: url('https://i.imgur.com/abYybUu.png');
+      background-size: cover;
+      background-repeat: repeat;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 { color: #ff4da6; }
+    .hidden { display: none; }
+    #messages { margin-top: 20px; }
+    .wish {
+      background: #fff0f5;
+      border: 2px dashed pink;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 10px auto;
+      width: 90%;
+      max-width: 400px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Protect page -->
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("user") !== "khushi") {
-      window.location.href = "index.html";
-    }
-  </script>
+  <h1>Countdown to Your Day, Khushi 🎈</h1>
+  <div id="timer"></div>
+  <div id="confettiArea"></div>
 
-  <div class="container">
-    <h1>🎈 Countdown to Your Day, Khushi 🎈</h1>
-    <h2 id="countdown">Loading...</h2>
+  <div id="messages" class="hidden">
+    <h2>Your Lovely Wishes 💌</h2>
+    <div id="wishList"></div>
   </div>
 
-  <!-- Hidden audio so the surprise page keeps the song playing -->
-  <iframe style="display:none" width="0" height="0"
-    src="https://www.youtube.com/embed/3ymwOvzhwHs?autoplay=1&loop=1&playlist=3ymwOvzhwHs&mute=1"
-    frameborder="0" allow="autoplay"></iframe>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-  <script>
-    const countdownEl = document.getElementById("countdown");
-    const targetDate = new Date("June 23, 2025 00:00:00").getTime();
-
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-
-      if (distance < 0) {
-        clearInterval(timer);
-        countdownEl.innerText = "🎂🎈 It's Your Day, Khushi! 🎈🎂";
-        confetti({ particleCount: 200, spread: 70, origin: { y: 0.4 } });
-        return;
-      }
-
-      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((distance % (1000 * 60)) / 1000);
-      countdownEl.innerText = `${d}d ${h}h ${m}m ${s}s`;
+    const firebaseConfig = {
+      apiKey: "AIzaSyD14DMWfrCbIjkXPEpdVPdHbXFZWFhO94U",
+      authDomain: "simply-lovely-a4f95.firebaseapp.com",
+      databaseURL: "https://simply-lovely-a4f95-default-rtdb.firebaseio.com/",
+      projectId: "simply-lovely-a4f95",
+      storageBucket: "simply-lovely-a4f95.appspot.com",
+      messagingSenderId: "408497495837",
+      appId: "1:408497495837:web:26317ffa85861f4cc18bf4",
     };
 
-    updateTimer();
-    const timer = setInterval(updateTimer, 1000);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const countdownTarget = new Date("June 23, 2025 00:00:00").getTime();
+    const timerEl = document.getElementById("timer");
+    const messagesDiv = document.getElementById("messages");
+    const wishList = document.getElementById("wishList");
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const diff = countdownTarget - now;
+
+      if (diff > 0) {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        timerEl.innerText = `${d}d ${h}h ${m}m ${s}s`;
+      } else {
+        clearInterval(interval);
+        timerEl.innerText = "🎉 Happy Birthday Khushi! 🎉";
+        messagesDiv.classList.remove("hidden");
+        confetti();
+
+        const wishesRef = ref(db, "wishes");
+        onValue(wishesRef, (snapshot) => {
+          wishList.innerHTML = "";
+          snapshot.forEach((child) => {
+            const data = child.val();
+            const div = document.createElement("div");
+            div.className = "wish";
+            div.innerHTML = `<strong>${data.name}</strong><br/>${data.message}`;
+            wishList.appendChild(div);
+          });
+        });
+      }
+    }, 1000);
   </script>
 </body>
 </html>
-
