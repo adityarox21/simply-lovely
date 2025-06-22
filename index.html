@@ -1,1 +1,27 @@
-<!-- Homepage HTML goes here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simply Lovely – Happy Birthday Khushi!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="assets/feel-special.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    <h1>🎉 Happy Birthday Khushi! 🎉</h1>
+    <img src="https://i.imgur.com/fVrhDCI.png" alt="Hello Kitty" class="kitty-sticker">
+    <p>You are so goated and loved, Turtle 🐢💖</p>
+    <a class="btn" href="khushi.html?user=khushi">Click here for your surprise 🎁</a>
+    <form name="birthday-wishes" method="POST" data-netlify="true">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <textarea name="message" placeholder="Write your wish..." required></textarea>
+      <button type="submit">Send Wish 💌</button>
+    </form>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
