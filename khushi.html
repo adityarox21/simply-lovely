@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Khushi’s Surprise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+  <!-- Protect page -->
   <script>
     const params = new URLSearchParams(window.location.search);
     if (params.get("user") !== "khushi") {
@@ -16,30 +19,37 @@
   <div class="container">
     <h1>🎈 Countdown to Your Day, Khushi 🎈</h1>
     <h2 id="countdown">Loading...</h2>
-
-    <!-- Optional poem/message removed as requested -->
   </div>
 
+  <!-- Hidden audio so the surprise page keeps the song playing -->
   <iframe style="display:none" width="0" height="0"
     src="https://www.youtube.com/embed/3ymwOvzhwHs?autoplay=1&loop=1&playlist=3ymwOvzhwHs&mute=1"
     frameborder="0" allow="autoplay"></iframe>
 
   <script>
-    const countDownDate = new Date("June 23, 2025 00:00:00").getTime();
-    const x = setInterval(function() {
+    const countdownEl = document.getElementById("countdown");
+    const targetDate = new Date("June 23, 2025 00:00:00").getTime();
+
+    const updateTimer = () => {
       const now = new Date().getTime();
-      const distance = countDownDate - now;
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      document.getElementById("countdown").innerHTML =
-        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      const distance = targetDate - now;
+
       if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "🎂🎈 It's Your Day, Khushi! 🎈🎂";
+        clearInterval(timer);
+        countdownEl.innerText = "🎂🎈 It's Your Day, Khushi! 🎈🎂";
+        confetti({ particleCount: 200, spread: 70, origin: { y: 0.4 } });
+        return;
       }
-    }, 1000);
+
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.innerText = `${d}d ${h}h ${m}m ${s}s`;
+    };
+
+    updateTimer();
+    const timer = setInterval(updateTimer, 1000);
   </script>
 </body>
 </html>
