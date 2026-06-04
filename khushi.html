@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Khushi's Surprise 🎉</title>
+
   <link rel="stylesheet" href="style.css" />
+
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+
   <style>
     body {
       font-family: 'Comic Sans MS', cursive;
@@ -15,9 +16,19 @@
       text-align: center;
       padding: 20px;
     }
-    h1 { color: #ff4da6; }
-    .hidden { display: none; }
-    #messages { margin-top: 20px; }
+
+    h1 {
+      color: #ff4da6;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #messages {
+      margin-top: 20px;
+    }
+
     .wish {
       background: #fff0f5;
       border: 2px dashed pink;
@@ -29,10 +40,11 @@
     }
   </style>
 </head>
+
 <body>
   <h1>Countdown to Your Day, Khushi 🎈</h1>
+
   <div id="timer"></div>
-  <div id="confettiArea"></div>
 
   <div id="messages" class="hidden">
     <h2>Your Lovely Wishes 💌</h2>
@@ -41,7 +53,11 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import {
+      getDatabase,
+      ref,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD14DMWfrCbIjkXPEpdVPdHbXFZWFhO94U",
@@ -50,48 +66,69 @@
       projectId: "simply-lovely-a4f95",
       storageBucket: "simply-lovely-a4f95.appspot.com",
       messagingSenderId: "408497495837",
-      appId: "1:408497495837:web:26317ffa85861f4cc18bf4",
+      appId: "1:408497495837:web:26317ffa85861f4cc18bf4"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // 🔐 Real countdown to June 23, 2025, 00:00:00 IST
-    const countdownTarget = new Date("June 23, 2025 00:00:00 GMT+0530").getTime();
     const timerEl = document.getElementById("timer");
     const messagesDiv = document.getElementById("messages");
     const wishList = document.getElementById("wishList");
 
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const diff = countdownTarget - now;
+    timerEl.innerText = "🎉 Happy Birthday Khushi! 🎉";
+    messagesDiv.classList.remove("hidden");
 
-      if (diff > 0) {
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((diff % (1000 * 60)) / 1000);
-        timerEl.innerText = `${d}d ${h}h ${m}m ${s}s`;
-      } else {
-        clearInterval(interval);
-        timerEl.innerText = "🎉 Happy Birthday Khushi! 🎉";
-        messagesDiv.classList.remove("hidden");
+    try {
+      if (typeof confetti === "function") {
         confetti();
-
-        const wishesRef = ref(db, "wishes");
-        onValue(wishesRef, (snapshot) => {
-          wishList.innerHTML = "";
-          snapshot.forEach((child) => {
-            const data = child.val();
-            const div = document.createElement("div");
-            div.className = "wish";
-            div.innerHTML = `<strong>${data.name}</strong><br/>${data.message}`;
-            wishList.appendChild(div);
-          });
-        });
       }
-    }, 1000);
+    } catch (e) {
+      console.error("Confetti error:", e);
+    }
+
+    const wishesRef = ref(db, "wishes");
+
+    onValue(
+      wishesRef,
+      (snapshot) => {
+        console.log("Firebase connected");
+        console.log(snapshot.val());
+
+        wishList.innerHTML = "";
+
+        if (!snapshot.exists()) {
+          wishList.innerHTML =
+            "<div class='wish'>No wishes found in database.</div>";
+          return;
+        }
+
+        snapshot.forEach((child) => {
+          const data = child.val();
+
+          const div = document.createElement("div");
+          div.className = "wish";
+
+          div.innerHTML = `
+            <strong>${data.name || "Anonymous"}</strong>
+            <br>
+            ${data.message || ""}
+          `;
+
+          wishList.appendChild(div);
+        });
+      },
+      (error) => {
+        console.error("Firebase error:", error);
+
+        wishList.innerHTML = `
+          <div class="wish">
+            <strong>Firebase Error</strong><br>
+            ${error.code || error.message}
+          </div>
+        `;
+      }
+    );
   </script>
 </body>
 </html>
-
